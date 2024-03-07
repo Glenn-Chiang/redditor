@@ -22,7 +22,7 @@ def split_text(text: str, chunk_size: int):
     return text_chunks
 
 
-def generate_audio(text: str) -> str:
+def get_tts_response(text: str) -> str:
     try:
         res = requests.post(url='https://tiktok-tts.weilnet.workers.dev/api/generation',
                             json={'text': text, 'voice': 'en_us_001'})
@@ -32,14 +32,14 @@ def generate_audio(text: str) -> str:
     return res.json()['data']
 
 
-def text_to_speech(text: str, output_path: str):
+def generate_audio(text: str, output_path: str):
     TEXT_CHAR_LIMIT = 299
     if len(text) <= TEXT_CHAR_LIMIT:
-        audio_encoding = generate_audio(text)
+        audio_encoding = get_tts_response(text)
     else:
         # If text exceeds limit accepted by API, split text into smaller chuinks then combine the output
         text_chunks = split_text(text, chunk_size=TEXT_CHAR_LIMIT)
-        audio_encoding = ''.join([generate_audio(text) for text in text_chunks])
+        audio_encoding = ''.join([get_tts_response(text) for text in text_chunks])
 
     # Decode base64 string to binary
     audio_bytes = base64.b64decode(audio_encoding)
