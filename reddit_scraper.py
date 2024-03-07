@@ -63,6 +63,7 @@ def get_comments(session: requests.Session, subreddit_name: str, post_id: str, c
 
     comments = [
         {
+            'id': comment['data']['id'],
             'body': comment['data']['body'],
             'permalink': comment['data']['permalink']
         } for comment in response.json()[1]['data']['children'][:-1]
