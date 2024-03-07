@@ -32,6 +32,7 @@ def authenticate_session(session: requests.Session, client_id: str, client_secre
     return session
 
 
+# Get given number of posts for given subreddit
 def get_posts(session: requests.Session, subreddit_name: str, limit: int, after: str = None) -> list[dict]:
     try:
         response = session.get(
@@ -51,6 +52,7 @@ def get_posts(session: requests.Session, subreddit_name: str, limit: int, after:
     return posts
 
 
+# Get given number of comments for given post in subreddit
 def get_comments(session: requests.Session, subreddit_name: str, post_id: str, comment_count: int):
     try:
         response = session.get(
@@ -69,6 +71,7 @@ def get_comments(session: requests.Session, subreddit_name: str, post_id: str, c
     return comments
 
 
+# Get given number of posts for given subreddit, with given number of comments nested under each post object
 def get_subreddit_thread(subreddit_name: str, num_posts_required: int, comments_per_post: int) -> list[dict]:
     session = requests.Session()
     try:
