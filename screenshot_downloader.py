@@ -26,4 +26,4 @@ def screenshot_post_and_comments(subreddit: str, post_id: str, comment_ids: list
 
 if __name__ == '__main__':
     screenshot_post_and_comments(subreddit='AskReddit', post_id='t3_1b843u6', comment_ids=[
-                                 't1_ktn6nxx'], output_dir='output/screenshots')
+                                 't1_ktn6nxx'], output_dir='tmp/screenshots')

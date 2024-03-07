@@ -49,4 +49,4 @@ def generate_audio(text: str, output_path: str):
 
 
 if __name__=='__main__':
-    generate_audio(text='hello world. testing tiktok text to speech.', output_path='output/audio/test.wav')
+    generate_audio(text='hello world. testing tiktok text to speech.', output_path='tmp/audio/test.wav')

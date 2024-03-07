@@ -1,9 +1,10 @@
 import os
 from reddit_scraper import get_subreddit_thread
 from text_to_speech import generate_audio
-from screenshot import screenshot_post_and_comments
+from screenshot_downloader import screenshot_post_and_comments
 
-audio_directory = 'output/audio'
+audio_directory = 'tmp/audio'
+screenshot_directory = 'tmp/screenshots'
 
 def main():
     target_subreddit = 'AskReddit'
@@ -25,10 +26,11 @@ def main():
             generate_audio(text=comment['body'], output_path=os.path.join(audio_directory, f"t1_{comment['id']}.wav"))
 
     # Get screenshot of each post/comment
+    print('Downloading screenshots...')
     for post in posts:
         post_id = f"t3_{post['id']}"
         comment_ids = [f"t1_{comment['id']}" for comment in post['comments']]
-        screenshot_post_and_comments(subreddit=target_subreddit, post_id=post_id, comment_ids=comment_ids, output_dir='output/screenshots')
+        screenshot_post_and_comments(subreddit=target_subreddit, post_id=post_id, comment_ids=comment_ids, output_dir=screenshot_directory)
 
     print('Done!')
 
