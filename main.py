@@ -2,6 +2,7 @@ import os
 from reddit_scraper import get_subreddit_thread
 from text_to_speech import generate_audio
 from screenshot_downloader import screenshot_post_and_comments
+from requests.exceptions import RequestException
 
 audio_directory = 'tmp/audio'
 screenshot_directory = 'tmp/screenshots'
@@ -20,10 +21,20 @@ def main():
     print('Generating audio...')
     for post in posts:
         # Generate audio for post title
-        generate_audio(text=post['title'], output_path=os.path.join(audio_directory, f"t3_{post['id']}.wav"))
+        try:
+            generate_audio(text=post['title'], output_path=os.path.join(audio_directory, f"t3_{post['id']}.wav"))
+        except Exception as error:
+            # If there was an error generating audio for this post, skip to next one
+            print(f"Error generating audio for post {post['id']}:", error)
+            continue
+
         # Generate audio for comments
         for comment in post['comments']:
-            generate_audio(text=comment['body'], output_path=os.path.join(audio_directory, f"t1_{comment['id']}.wav"))
+            try:
+                generate_audio(text=comment['body'], output_path=os.path.join(audio_directory, f"t1_{comment['id']}.wav"))
+            except Exception as error:
+                print(f"Error generating audio for comment{comment['id']}:", error)
+                continue
 
     # Get screenshot of each post/comment
     print('Downloading screenshots...')
