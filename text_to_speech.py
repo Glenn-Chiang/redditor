@@ -3,9 +3,9 @@ import requests
 from requests.exceptions import RequestException
 from utils.text import split_text
 
-ENDPOINTS = [
-    "https://tiktoktts.com/api/tiktok-tts"
-]
+# ENDPOINTS = ["https://tiktoktts.com/api/tiktok-tts"]
+TEXT_CHAR_LIMIT = 299
+
 
 def get_tts_response(text: str) -> str:
     try:
@@ -18,7 +18,6 @@ def get_tts_response(text: str) -> str:
 
 
 def generate_audio(text: str, output_path: str):
-    TEXT_CHAR_LIMIT = 299
     if len(text) <= TEXT_CHAR_LIMIT:
         audio_encoding = get_tts_response(text)
     else:
