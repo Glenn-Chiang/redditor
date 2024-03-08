@@ -2,15 +2,19 @@ import os
 from reddit_scraper import get_subreddit_thread
 from text_to_speech import generate_audio
 from screenshot_downloader import screenshot_post_and_comments
-from requests.exceptions import RequestException
+from video_maker import make_video
 
 audio_directory = 'tmp/audio'
 screenshot_directory = 'tmp/screenshots'
+background_video_path = 'assets/gameplay.mp4'
+output_path = 'output/video.mp4'
+video_size = (1080, 1920)
+
 
 def main():
     target_subreddit = 'AskReddit'
-    num_posts_required = 5
-    comments_per_post = 5
+    num_posts_required = 3
+    comments_per_post = 4
 
     # Getting subreddit thread
     print(f'Getting thread from r/{target_subreddit}...')
@@ -30,7 +34,8 @@ def main():
         # Generate audio for post title
         filename = f"t3_{post['id']}.wav"
         try:
-            generate_audio(text=post['title'], output_path=os.path.join(audio_directory, filename))
+            generate_audio(text=post['title'], output_path=os.path.join(
+                audio_directory, filename))
             print('Generated audio:', filename)
         except Exception as error:
             # If there was an error generating audio for this post, skip to next post
@@ -41,11 +46,13 @@ def main():
         for comment in post['comments']:
             filename = f"t1_{comment['id']}.wav"
             try:
-                generate_audio(text=comment['body'], output_path=os.path.join(audio_directory, filename))
+                generate_audio(text=comment['body'], output_path=os.path.join(
+                    audio_directory, filename))
                 print('Generated audio:', filename)
             except Exception as error:
                 # If there was an error generating audio for this comment, skip to next comment
-                print(f"Error generating audio for comment {comment['id']}:", error)
+                print(
+                    f"Error generating audio for comment {comment['id']}:", error)
                 continue
 
     # Get screenshot of each post/comment
@@ -53,8 +60,12 @@ def main():
     for post in posts:
         post_id = f"t3_{post['id']}"
         comment_ids = [f"t1_{comment['id']}" for comment in post['comments']]
-        
-        screenshot_post_and_comments(subreddit=target_subreddit, post_id=post_id, comment_ids=comment_ids, output_dir=screenshot_directory)
+        screenshot_post_and_comments(subreddit=target_subreddit, post_id=post_id,
+                                     comment_ids=comment_ids, output_dir=screenshot_directory)
+
+    print('Creating video...')
+    make_video(audio_dir=audio_directory, image_dir=screenshot_directory,
+               background_video_path=background_video_path, output_path=output_path, video_size=video_size)
 
     print('Done!')
 
