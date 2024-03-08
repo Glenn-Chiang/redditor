@@ -2,6 +2,7 @@ import random
 import os
 from moviepy.editor import AudioFileClip, VideoFileClip, ImageClip, CompositeVideoClip, concatenate_videoclips
 from moviepy.video.fx.crop import crop
+from moviepy.video.fx.resize import resize
 import PIL.Image
 
 
@@ -64,9 +65,7 @@ def make_video(audio_dir: str, image_dir: str, background_video_path: str, outpu
         total_duration += image_clip.duration        
 
     # Video containing sequence of images
-    images_video = concatenate_videoclips(image_clips, method='compose')
-    # image_video.write_videofile(output_path, fps=1)
-    print('Duration:', images_video.duration)
+    images_video = concatenate_videoclips(image_clips, method='compose').resize(1.5, PIL.Image.LANCZOS)
 
     background_video = get_background_clip(
         video_path=background_video_path, duration=int(images_video.duration), size=video_size)

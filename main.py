@@ -1,5 +1,6 @@
 import os
 import shutil
+from uuid import uuid4
 from reddit_scraper import get_subreddit_thread
 from text_to_speech import generate_audio
 from screenshot_downloader import screenshot_post_and_comments
@@ -12,8 +13,8 @@ screenshot_directory = os.path.join(temp_directory, 'screenshots')
 background_video_path = 'assets/gameplay.mp4'
 video_size = (1080, 1920)
 target_subreddit = 'AskReddit'
-num_posts_required = 3
-comments_per_post = 4
+num_posts_required = 1
+comments_per_post = 5
 
 
 def main():
@@ -70,14 +71,14 @@ def main():
                                      comment_ids=comment_ids, output_dir=screenshot_directory)
 
     print('Creating video...')
-    output_path = os.path.join(output_directory, 'video.mp4')
+    output_path = os.path.join(output_directory, f'{uuid4()}.mp4')
     make_video(audio_dir=audio_directory, image_dir=screenshot_directory,
                background_video_path=background_video_path, output_path=output_path, video_size=video_size)
 
     print('Video created!')
 
-    # Remove /tmp directory
-    shutil.rmtree(temp_directory)
+    # Remove /tmp directory TODO: Uncomment this in production
+    # shutil.rmtree(temp_directory)
 
 
 if __name__ == '__main__':
