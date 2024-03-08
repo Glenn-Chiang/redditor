@@ -22,7 +22,6 @@ def generate_audio(text: str, output_path: str):
     else:
         # If text exceeds limit accepted by API, split text into smaller chuinks then combine the output
         text_chunks = split_text(text, chunk_size=TEXT_CHAR_LIMIT)
-        print(text_chunks)
         audio_encoding = ''.join([get_tts_response(text) for text in text_chunks])
 
     # Decode base64 string to binary

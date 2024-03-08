@@ -54,7 +54,7 @@ def main():
         post_id = f"t3_{post['id']}"
         comment_ids = [f"t1_{comment['id']}" for comment in post['comments']]
         
-        # screenshot_post_and_comments(subreddit=target_subreddit, post_id=post_id, comment_ids=comment_ids, output_dir=screenshot_directory)
+        screenshot_post_and_comments(subreddit=target_subreddit, post_id=post_id, comment_ids=comment_ids, output_dir=screenshot_directory)
 
     print('Done!')
 
