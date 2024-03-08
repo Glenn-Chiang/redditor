@@ -3,6 +3,9 @@ import requests
 from requests.exceptions import RequestException
 import re
 
+ENDPOINTS = [
+    "https://tiktoktts.com/api/tiktok-tts"
+]
 
 def split_text(text: str, chunk_size: int):
     sentences = re.split(r'([.!?])', text)
