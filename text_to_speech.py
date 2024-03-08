@@ -6,7 +6,6 @@ from utils.text import split_text
 # ENDPOINTS = ["https://tiktoktts.com/api/tiktok-tts"]
 TEXT_CHAR_LIMIT = 299
 
-
 def get_tts_response(text: str) -> str:
     try:
         res = requests.post(url='https://tiktok-tts.weilnet.workers.dev/api/generation',
@@ -23,6 +22,7 @@ def generate_audio(text: str, output_path: str):
     else:
         # If text exceeds limit accepted by API, split text into smaller chuinks then combine the output
         text_chunks = split_text(text, chunk_size=TEXT_CHAR_LIMIT)
+        print(text_chunks)
         audio_encoding = ''.join([get_tts_response(text) for text in text_chunks])
 
     # Decode base64 string to binary
@@ -33,4 +33,6 @@ def generate_audio(text: str, output_path: str):
 
 
 if __name__=='__main__':
-    generate_audio(text='hello world. testing tiktok text to speech.', output_path='tmp/audio/test.wav')
+    text = 'hello world'
+
+    generate_audio(text=text, output_path='tmp/audio/test.wav')
