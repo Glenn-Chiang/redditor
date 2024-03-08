@@ -63,7 +63,6 @@ def make_video(audio_dir: str, image_dir: str, background_video_path: str, outpu
         image_clips.append(image_clip)
         total_duration += image_clip.duration        
 
-
     # Video containing sequence of images
     images_video = concatenate_videoclips(image_clips, method='compose')
     # image_video.write_videofile(output_path, fps=1)

@@ -1,20 +1,26 @@
 import os
+import shutil
 from reddit_scraper import get_subreddit_thread
 from text_to_speech import generate_audio
 from screenshot_downloader import screenshot_post_and_comments
 from video_maker import make_video
 
-audio_directory = 'tmp/audio'
-screenshot_directory = 'tmp/screenshots'
+output_directory = 'output'
+temp_directory = 'tmp'
+audio_directory = os.path.join(temp_directory, 'audio')
+screenshot_directory = os.path.join(temp_directory, 'screenshots')
 background_video_path = 'assets/gameplay.mp4'
-output_path = 'output/video.mp4'
 video_size = (1080, 1920)
+target_subreddit = 'AskReddit'
+num_posts_required = 3
+comments_per_post = 4
 
 
 def main():
-    target_subreddit = 'AskReddit'
-    num_posts_required = 3
-    comments_per_post = 4
+    # Create necessary directories if they have not been created
+    for dir_path in [audio_directory, screenshot_directory, output_directory]:
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path)
 
     # Getting subreddit thread
     print(f'Getting thread from r/{target_subreddit}...')
@@ -64,10 +70,14 @@ def main():
                                      comment_ids=comment_ids, output_dir=screenshot_directory)
 
     print('Creating video...')
+    output_path = os.path.join(output_directory, 'video.mp4')
     make_video(audio_dir=audio_directory, image_dir=screenshot_directory,
                background_video_path=background_video_path, output_path=output_path, video_size=video_size)
 
-    print('Done!')
+    print('Video created!')
+
+    # Remove /tmp directory
+    shutil.rmtree(temp_directory)
 
 
 if __name__ == '__main__':
