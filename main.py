@@ -11,14 +11,15 @@ temp_directory = 'tmp'
 audio_directory = os.path.join(temp_directory, 'audio')
 screenshot_directory = os.path.join(temp_directory, 'screenshots')
 background_video_path = 'assets/gameplay.mp4'
+
 video_size = (1080, 1920)  # width, height
-max_video_duration = 40  # in seconds
+max_video_duration = 60  # in seconds
 target_subreddit = 'AskReddit'
-num_posts_required = 1
-comments_per_post = 20  # This will fetch all comments for the post
+num_posts_required = 2
+comments_per_post = 10
 
 
-def main():
+def generate():
     # Create necessary directories if they have not been created
     for dir_path in [audio_directory, screenshot_directory, output_directory]:
         if not os.path.exists(dir_path):
@@ -97,4 +98,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    generate()

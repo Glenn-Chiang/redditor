@@ -54,7 +54,7 @@ def make_video(audio_dir: str, image_dir: str, background_video_path: str, outpu
             continue
 
         audio_clip = AudioFileClip(filename=audio_path)
-
+        
         # If adding the next clip would cause the duration of the clips to exceed the maximum allowed video duration or the duration of the background video, stop adding clips
         if total_duration + audio_clip.duration > min(max_duration, background_video.duration):
             break
@@ -66,7 +66,7 @@ def make_video(audio_dir: str, image_dir: str, background_video_path: str, outpu
 
     # Video containing sequence of images
     images_video = concatenate_videoclips(
-        image_clips, method='compose').resize(1.5, PIL.Image.LANCZOS)
+        image_clips, method='compose').resize(1.75, PIL.Image.LANCZOS)
 
     background_video = get_background_clip(
         video_path=background_video_path, duration=int(images_video.duration), size=video_size)
