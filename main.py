@@ -77,8 +77,8 @@ def main():
 
     print('Video created!')
 
-    # Remove /tmp directory TODO: Uncomment this in production
-    # shutil.rmtree(temp_directory)
+    # Remove temp directory TODO: Uncomment this in production
+    shutil.rmtree(temp_directory)
 
 
 if __name__ == '__main__':
