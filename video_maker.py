@@ -10,7 +10,6 @@ import PIL.Image
 def get_background_clip(video_path: str, duration: int, size: tuple[int, int]) -> VideoFileClip:
     source_video = VideoFileClip(video_path)
 
-    # TODO: Handle case of source video being shorter thaln required duration
     start_time = random.randint(
         0, int(source_video.duration) - duration)
     clip: VideoFileClip = source_video.subclip(
