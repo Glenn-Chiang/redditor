@@ -1,10 +1,10 @@
 import os
 import shutil
-from uuid import uuid4
 from reddit_client import reddit_client
 from text_to_speech import generate_audio
 from screenshot_downloader import screenshot_post, screenshot_comment
 from video_maker import make_video
+from user_interface import select_post, select_subreddit
 
 output_directory = 'output'
 temp_directory = 'tmp'
@@ -15,9 +15,9 @@ background_video_path = 'assets/gameplay.mp4'
 video_size = (1080, 1920)  # width, height
 max_video_duration = 60  # in seconds
 
-target_subreddit = 'AskReddit'
+subreddits = ['AskReddit', 'Showerthoughts', 'funny', 'AskMen']
 num_posts = 10 # How many posts to fetch from subreddit. User will be prompted to select a post from this list to use as the subject of the video.
-comments_per_post = 5 # How many comments to include per video
+comments_per_post = 10 # How many comments to include per video
 
 
 def generate():
@@ -25,6 +25,8 @@ def generate():
     for dir_path in [audio_directory, screenshot_directory, output_directory]:
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
+
+    target_subreddit = select_subreddit(subreddits)
 
     # Get trending posts from subreddit
     print(f'Getting posts from r/{target_subreddit}...')
@@ -34,23 +36,10 @@ def generate():
         print('Error getting posts:', error)
         return
 
-    # Display list of trending posts and prompt user to select 1 post
-    # Repeat the prompt until user enters valid input
-    while True:
-        print(f'Select a post from below:')
-        for index, post in enumerate(posts):
-            print(f"[{index}] {post['url']}")
-        
-        user_input = input('Index number: ')
-
-        try:
-            selected_index = int(user_input)
-            post = posts[selected_index]
-            break
-        except (ValueError, IndexError):
-            print('Invalid index number\n')
     
-    print(f"\nSelected post {post['id']}")
+    post = select_post(posts)
+    
+    print(f"\nSelected post {post['id']}: {post['title']}")
     print(f"Getting comments...")
     
     try:
