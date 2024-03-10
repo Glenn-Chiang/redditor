@@ -4,4 +4,3 @@ venv
 *.json
 output
 tmp
-assets
