@@ -1,6 +1,9 @@
 # redditor
 A script that generates short-form videos from popular reddit threads
 
+[![thumbnail](http://img.youtube.com/vi/goTNMh0OINo/0.jpg)](https://www.youtube.com/shorts/goTNMh0OINo)
+[![thumbnail](http://img.youtube.com/vi/bDfnwqNr50g/0.jpg)](https://www.youtube.com/shorts/bDfnwqNr50g)
+
 ## How it works
 1. Prompt user to select a subreddit to provide content for the video
 2. Fetch trending posts from the selected subreddit using the reddit API
