@@ -10,8 +10,8 @@ A script that generates short-form videos from popular reddit threads
 3. Prompt user to select one of the trending posts
 4. Fetch top comments under the selected post using the reddit API
 5. Generate voice-over audio for the post and its comments using the tiktok text-to-speech API
-6. Download screenshots of the post and its comments using the playwright library
-7. Combine the screenshots and audio files together with a background clip to form a video using the moviepy library
+6. Download screenshots of the post and its comments using [playwright](https://github.com/microsoft/playwright-python)
+7. Combine the screenshots and audio files together with a background clip to form a video using [moviepy](https://github.com/Zulko/moviepy/)
 
 ## Getting started
 ### Obtaining Reddit API credentials
