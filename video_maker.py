@@ -9,13 +9,12 @@ import PIL.Image
 # Extract, crop and resize a random clip from a video to use as background clip
 def get_background_clip(video_path: str, duration: int, size: tuple[int, int]) -> VideoFileClip:
     source_video = VideoFileClip(video_path)
-    
-    # If source video is longer than 
-    if source_video.duration > duration:
-        start_time = random.randint(
-            0, int(source_video.duration) - duration)
-        clip: VideoFileClip = source_video.subclip(
-            start_time, start_time + duration)
+
+    # TODO: Handle case of source video being shorter thaln required duration
+    start_time = random.randint(
+        0, int(source_video.duration) - duration)
+    clip: VideoFileClip = source_video.subclip(
+        start_time, start_time + duration)
 
     original_width, original_height = clip.size
     original_aspect_ratio = original_width / original_height
@@ -33,7 +32,7 @@ def get_background_clip(video_path: str, duration: int, size: tuple[int, int]) -
     return cropped_clip.resize(size, PIL.Image.LANCZOS)
 
 
-def make_video(audio_dir: str, image_dir: str, background_video_path: str, output_path: str, video_size: tuple[int, int]) -> None:
+def make_video(audio_dir: str, image_dir: str, background_video_path: str, output_path: str, video_size: tuple[int, int], max_duration: int) -> None:
     image_paths = [os.path.join(image_dir, file)
                    for file in os.listdir(image_dir)]
     # Sort image files by date created
@@ -56,25 +55,26 @@ def make_video(audio_dir: str, image_dir: str, background_video_path: str, outpu
 
         audio_clip = AudioFileClip(filename=audio_path)
 
-        # If adding the next clip would cause the duration to exceed that of the background video, stop adding clips
-        if total_duration + audio_clip.duration > background_video.duration:
+        # If adding the next clip would cause the duration of the clips to exceed the maximum allowed video duration or the duration of the background video, stop adding clips
+        if total_duration + audio_clip.duration > min(max_duration, background_video.duration):
             break
 
-        image_clip: ImageClip = ImageClip(img=image_path, duration=audio_clip.duration).set_audio(audio_clip)
+        image_clip: ImageClip = ImageClip(
+            img=image_path, duration=audio_clip.duration).set_audio(audio_clip)
         image_clips.append(image_clip)
-        total_duration += image_clip.duration        
+        total_duration += image_clip.duration
 
     # Video containing sequence of images
-    images_video = concatenate_videoclips(image_clips, method='compose').resize(1.5, PIL.Image.LANCZOS)
+    images_video = concatenate_videoclips(
+        image_clips, method='compose').resize(1.5, PIL.Image.LANCZOS)
 
     background_video = get_background_clip(
         video_path=background_video_path, duration=int(images_video.duration), size=video_size)
 
-    composite_video = CompositeVideoClip(
-        [background_video, images_video.set_position('center')])
+    composite_video = CompositeVideoClip([background_video, images_video.set_position('center')])
     composite_video.write_videofile(output_path)
 
 
 if __name__ == '__main__':
-    make_video(audio_dir='tmp/audio', image_dir='tmp/screenshots',
-               background_video_path='assets/gameplay.mp4', output_path='tmp/video/test.mp4', video_size=(1080, 1920))
+    make_video(audio_dir='tmp/audio', image_dir='tmp/screenshots', background_video_path='assets/gameplay.mp4',
+               output_path='tmp/video/test.mp4', video_size=(1080, 1920), max_duration=60)

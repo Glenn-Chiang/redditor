@@ -11,10 +11,11 @@ temp_directory = 'tmp'
 audio_directory = os.path.join(temp_directory, 'audio')
 screenshot_directory = os.path.join(temp_directory, 'screenshots')
 background_video_path = 'assets/gameplay.mp4'
-video_size = (1080, 1920)
+video_size = (1080, 1920) # width, height
+max_video_duration = 60 # in seconds
 target_subreddit = 'AskReddit'
 num_posts_required = 1
-comments_per_post = 5
+comments_per_post = 30
 
 
 def main():
@@ -72,8 +73,8 @@ def main():
 
     print('Creating video...')
     output_path = os.path.join(output_directory, f'{uuid4()}.mp4')
-    make_video(audio_dir=audio_directory, image_dir=screenshot_directory,
-               background_video_path=background_video_path, output_path=output_path, video_size=video_size)
+    make_video(audio_dir=audio_directory, image_dir=screenshot_directory, background_video_path=background_video_path,
+               output_path=output_path, video_size=video_size, max_duration=max_video_duration)
 
     print('Video created!')
 

@@ -53,7 +53,7 @@ def get_posts(session: requests.Session, subreddit_name: str, limit: int, after:
 
 
 # Get given number of comments for given post in subreddit
-def get_comments(session: requests.Session, subreddit_name: str, post_id: str, comment_count: int):
+def get_comments(session: requests.Session, subreddit_name: str, post_id: str, comment_count: int = None):
     try:
         response = session.get(
             f'{API_URL}/r/{subreddit_name}/comments/{post_id}', params={'limit': comment_count})
@@ -98,7 +98,10 @@ if __name__ == '__main__':
     target_subreddit = 'AskReddit'
     num_posts_required = 1
     # How many comments to read for each post
-    comments_per_post = 1
+    comments_per_post = 10
     posts = get_subreddit_thread(subreddit_name=target_subreddit,
                          num_posts_required=num_posts_required, comments_per_post=comments_per_post)
-    print(posts)
+    for post in posts:
+        comments = post['comments']
+        for comment in comments:
+            print(comment['body'])
