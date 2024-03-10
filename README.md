@@ -2,6 +2,13 @@
 A script that generates short-form videos from popular reddit threads
 
 ## How it works
+1. Prompt user to select a subreddit to provide content for the video
+2. Fetch trending posts from the selected subreddit using the reddit API
+3. Prompt user to select one of the trending posts
+4. Fetch top comments under the selected post using the reddit API
+5. Generate voice-over audio for the post and its comments using the tiktok text-to-speech API
+6. Download screenshots of the post and its comments using the playwright library
+7. Combine the screenshots and audio files together with a background clip to form a video using the moviepy library
 
 ## Getting started
 ### Obtaining Reddit API credentials
@@ -25,10 +32,10 @@ pip install -r requirements.txt
 REDDIT_CLIENT_ID='your-client-id'
 REDDIT_CLIENT_SECRET='your-client-secret'
 ```
-4. Create an `assets` directory and add a `.mp4` video file named `background.mp4` to be used as the background clip for the video.
 
 ### Usage
 Run the script
 ```
 python main.py
 ```
+Warning: do not run the script on multiple terminal windows at the same time as doing so may cause the script to read the wrong files
