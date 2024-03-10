@@ -8,7 +8,7 @@ from googleapiclient.http import MediaFileUpload
 SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
 
 TOKEN_FILE = os.path.join(os.path.dirname(__file__), './token.json')
-CLIENT_SECRETS_FILE = os.path.join(os.path.dirname(__file__), './youtube_client_secret.json')
+CLIENT_SECRETS_FILE = os.path.join(os.path.dirname(__file__), './client_secret.json')
 
 VIDEO_DIRECTORY = 'output'
 

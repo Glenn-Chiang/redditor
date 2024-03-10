@@ -4,7 +4,7 @@ from reddit_client import reddit_client
 from text_to_speech import generate_audio
 from screenshot_downloader import screenshot_post, screenshot_comment
 from video_maker import make_video
-from user_interface import select_post, select_subreddit
+from input_prompts import select_post, select_subreddit
 
 output_directory = 'output'
 temp_directory = 'tmp'
@@ -36,7 +36,6 @@ def generate():
         print('Error getting posts:', error)
         return
 
-    
     post = select_post(posts)
     
     print(f"\nSelected post {post['id']}: {post['title']}")
@@ -100,13 +99,14 @@ def generate():
             continue
             
     print('Creating video...')
-    output_path = os.path.join(output_directory, f"{post['id']}.mp4")
+    video_filename = post['url'].split('/')[7] + '.mp4'
+    output_path = os.path.join(output_directory, video_filename)
     make_video(audio_dir=audio_directory, image_dir=screenshot_directory, background_video_path=background_video_path,
                output_path=output_path, video_size=video_size, max_duration=max_video_duration)
 
     print('Video generated!')
 
-    # Remove temp directory TODO: Uncomment this in production
+    # Remove temp directory
     shutil.rmtree(temp_directory)
 
 
