@@ -10,7 +10,7 @@ output_directory = 'output'
 temp_directory = 'tmp'
 audio_directory = os.path.join(temp_directory, 'audio')
 screenshot_directory = os.path.join(temp_directory, 'screenshots')
-background_video_path = 'assets/gameplay.mp4'
+background_video_path = 'assets/background.mp4'
 
 video_size = (1080, 1920)  # width, height
 max_video_duration = 60  # in seconds
