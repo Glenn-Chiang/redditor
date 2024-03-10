@@ -15,7 +15,7 @@ video_size = (1080, 1920)  # width, height
 max_video_duration = 40  # in seconds
 target_subreddit = 'AskReddit'
 num_posts_required = 1
-comments_per_post = 30  # This will fetch all comments for the post
+comments_per_post = 20  # This will fetch all comments for the post
 
 
 def main():

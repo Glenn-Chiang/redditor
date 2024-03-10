@@ -21,6 +21,16 @@ def screenshot_comment(subreddit: str, post_id: str, comment_id: str, output_pat
         page = browser.new_page(user_agent=USER_AGENT)
         page.goto(
             url=f'https://www.reddit.com/r/{subreddit}/comments/{post_id}/comment/{comment_id}')
-        page.locator(
-            f"shreddit-comment[thingid='{comment_id}']").screenshot(path=output_path)
+        
+        comment_element = page.locator(f"shreddit-comment[thingid='{comment_id}']")
+        # Button that toggles whether to expand or close the comment subtree
+        toggle_button = comment_element.get_by_label('Toggle Comment Thread').first
+        # If expanded, click on toggle button to collapse the subtree
+        if toggle_button.get_attribute('aria-expanded'):
+            toggle_button.click()
+        
+        comment_element.screenshot(path=output_path)
         browser.close()
+
+if __name__ == '__main__':
+    screenshot_comment(subreddit='AskReddit', post_id='t3_1b8sfer', comment_id='t1_ktr4wrw', output_path='output/test.png')
