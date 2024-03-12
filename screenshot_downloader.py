@@ -13,6 +13,7 @@ def screenshot_post(subreddit: str, post_id: str, output_path: str):
         page.locator(f'#{post_id}').screenshot(path=output_path)
         browser.close()
 
+# Handle nsfw
 
 def screenshot_comment(subreddit: str, post_id: str, comment_id: str, output_path: str):
     with sync_playwright() as playwright:

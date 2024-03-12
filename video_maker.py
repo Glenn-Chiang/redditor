@@ -54,9 +54,9 @@ def make_video(audio_dir: str, image_dir: str, background_video_path: str, outpu
 
         audio_clip = AudioFileClip(filename=audio_path)
         
-        # If adding the next clip would cause the duration of the clips to exceed the maximum allowed video duration or the duration of the background video, stop adding clips
+        # If adding the next clip would cause the duration of the clips to exceed the maximum allowed video duration or the duration of the background video, skip to next clip
         if total_duration + audio_clip.duration > min(max_duration, background_video.duration):
-            break
+            continue
 
         image_clip: ImageClip = ImageClip(
             img=image_path, duration=audio_clip.duration).set_audio(audio_clip)

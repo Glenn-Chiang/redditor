@@ -12,12 +12,12 @@ audio_directory = os.path.join(temp_directory, 'audio')
 screenshot_directory = os.path.join(temp_directory, 'screenshots')
 background_video_path = 'assets/background.mp4'
 
-video_size = (1080, 1920)  # width, height
-max_video_duration = 60  # in seconds
+VIDEO_SIZE = (1080, 1920)  # width, height
+MAX_DURATION = 60  # in seconds
 
 subreddits = ['AskReddit', 'Showerthoughts', 'funny', 'AskMen']
-num_posts = 10 # How many posts to fetch from subreddit. User will be prompted to select a post from this list to use as the subject of the video.
-comments_per_post = 10 # How many comments to include per video
+num_posts = 20 # How many posts to fetch from the selected subreddit. User will be prompted to select a post from this list.
+comments_per_post = 10 # Maximum number of comments to include per video
 
 
 def generate():
@@ -102,7 +102,7 @@ def generate():
     video_filename = post['url'].split('/')[7] + '.mp4'
     output_path = os.path.join(output_directory, video_filename)
     make_video(audio_dir=audio_directory, image_dir=screenshot_directory, background_video_path=background_video_path,
-               output_path=output_path, video_size=video_size, max_duration=max_video_duration)
+               output_path=output_path, video_size=VIDEO_SIZE, max_duration=MAX_DURATION)
 
     print('Video generated!')
 
