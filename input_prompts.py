@@ -18,7 +18,7 @@ def select_post(posts: list[dict]) -> dict:
 
 def select_subreddit(subreddits: list[str]) -> str:
     while True:
-        print(f'Select post from below:')
+        print(f'Select subreddit from below:')
         for index, subreddit in enumerate(subreddits):
             print(f"[{index}] {subreddit}")
         

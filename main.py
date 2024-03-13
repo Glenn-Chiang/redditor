@@ -13,12 +13,11 @@ screenshot_directory = os.path.join(temp_directory, 'screenshots')
 background_video_path = 'assets/background.mp4'
 
 VIDEO_SIZE = (1080, 1920)  # width, height
-MAX_DURATION = 60  # in seconds
+MAX_DURATION = 45  # in seconds
 
 subreddits = ['AskReddit', 'Showerthoughts', 'funny', 'AskMen']
-num_posts = 20 # How many posts to fetch from the selected subreddit. User will be prompted to select a post from this list.
-comments_per_post = 10 # Maximum number of comments to include per video
-
+num_posts = 10 # How many posts to fetch from the selected subreddit. User will be prompted to select a post from this list.
+max_comments = 20
 
 def generate():
     # Create necessary directories if they have not been created
@@ -42,7 +41,7 @@ def generate():
     print(f"Getting comments...")
     
     try:
-        comments = reddit_client.get_comments(subreddit_name=target_subreddit, post_id=post['id'], num_comments=comments_per_post)
+        comments = reddit_client.get_comments(subreddit_name=target_subreddit, post_id=post['id'], num_comments=max_comments)
         post['comments'] = comments
     except Exception as error:
         print('Error getting comments:', error)
@@ -62,7 +61,7 @@ def generate():
         print('Generated audio:', title_audio_filename)
     except Exception as error:
         # If there was an error generating audio for post title, exit program
-        print(f'Error generating audio for post title')
+        print('Error generating audio for post:', error)
         return
     
     # Generate audio for comments
@@ -85,7 +84,7 @@ def generate():
                     output_path=os.path.join(screenshot_directory, f'{post_id}.png'))
         print('Downloaded screenshot:', post_id)
     except Exception as error:
-        print(f"Error downloading screenshot for post {post_id}:", error)
+        print(f"Error downloading screenshot for post:", error)
         return
 
     for comment in comments:

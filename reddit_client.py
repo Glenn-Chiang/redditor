@@ -41,7 +41,7 @@ class RedditClient():
     def get_posts(self, subreddit_name: str, num_posts: int) -> list[dict]:
         try:
             response = self.session.get(
-                f'{API_URL}/r/{subreddit_name}/top', params={'limit': num_posts})
+                f'{API_URL}/r/{subreddit_name}/best', params={'limit': num_posts})
             response.raise_for_status()
         except RequestException as error:
             raise RequestException(
@@ -64,11 +64,11 @@ class RedditClient():
         last_comment_id = None
 
         # You're probably wondering why we can't just make a single batch request for the required number of comments.
-        # The truth is, I have no idea. The API just always decides to return fewer comments than what was requested.
+        # One would think that the 'limit' parameter would strictly determine the number of comments returned, but for some reason the API usually returns fewer comments than the requested limit, which is why we have to resort to this while loop.
         while len(comments) < num_comments:
             try:
                 response = self.session.get(
-                    f'{API_URL}/r/{subreddit_name}/comments/{post_id}', params={'after': last_comment_id})
+                    f'{API_URL}/r/{subreddit_name}/comments/{post_id}/best', params={'limit': num_comments, 'after': last_comment_id})
                 response.raise_for_status()
             except RequestException as error:
                 raise RequestException(
