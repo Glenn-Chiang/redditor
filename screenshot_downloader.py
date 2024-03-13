@@ -58,9 +58,11 @@ def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], outp
             page.locator('#login-button').click()
             page.locator('#login-password').first.fill(REDDIT_PASSWORD)
             page.locator('#login-username').first.fill(REDDIT_USERNAME)
-            page.locator('#login > faceplate-tabpanel > auth-flow-modal:nth-child(1) > div.w-100 > faceplate-tracker > button').click()
-        
+            page.locator(
+                '#login > faceplate-tabpanel > auth-flow-modal:nth-child(1) > div.w-100 > faceplate-tracker > button').click()
+
         # Screenshot post
+        page.locator(f'#{post_id}').click()
         page.locator(f'#{post_id}').screenshot(
             path=os.path.join(output_dir, f'{post_id}.png'))
         print('Downloaded screenshot for post title')
@@ -68,15 +70,13 @@ def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], outp
         # Screenshot comments
         for comment_id in comment_ids:
             try:
-                page.goto(
-                    url=f'https://www.reddit.com/r/{subreddit}/comments/{post_id}/comment/{comment_id}')
                 comment_element = page.locator(
                     f"shreddit-comment[thingid='{comment_id}']")
                 # Button that toggles expansion of comment subtree
                 toggle_button = comment_element.get_by_label(
                     'Toggle Comment Thread').first
                 # If subtree is expanded, click on toggle button to collapse the subtree
-                if toggle_button.get_attribute('aria-expanded'):
+                if toggle_button.get_attribute('aria-expanded') == 'true':
                     toggle_button.click()
 
                 comment_element.screenshot(
@@ -99,16 +99,12 @@ def testA():
         't1_kujdv7e',
         't1_kui0m13',
         't1_kuiahqp',
-        't1_kuk2ag6',
-        't1_kui9po2',
-        't1_kujdv7e',
-        't1_kui0m13',
-        't1_kuiahqp',
-        't1_kuk2ag6',
+        't1_kukf32v',
         't1_kui9po2',
     ]
+
     screenshot_thread(subreddit='AskReddit', post_id=post_id,
-                      comment_ids=comment_ids, output_dir='tmp/screenshots', nsfw=True)
+                      comment_ids=comment_ids, output_dir='output', nsfw=True)
 
     end = time.time()
     print(f'Finished in {round(end - start, 2)}s')
