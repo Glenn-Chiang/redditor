@@ -17,7 +17,7 @@ MAX_DURATION = 45  # in seconds
 
 subreddits = ['AskReddit', 'Showerthoughts', 'funny', 'AskMen']
 # How many posts to fetch from the selected subreddit. User will be prompted to select a post from this list.
-num_posts = 10
+num_posts = 20
 max_comments = 10
 
 

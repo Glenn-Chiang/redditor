@@ -75,8 +75,9 @@ def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], outp
                 # Button that toggles expansion of comment subtree
                 toggle_button = comment_element.get_by_label(
                     'Toggle Comment Thread').first
+                
                 # If subtree is expanded, click on toggle button to collapse the subtree
-                if toggle_button.get_attribute('aria-expanded') == 'true':
+                if toggle_button.is_visible() and toggle_button.get_attribute('aria-expanded') == 'true':
                     toggle_button.click()
 
                 comment_element.screenshot(
@@ -89,4 +90,3 @@ def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], outp
                 continue
 
         browser.close()
-
