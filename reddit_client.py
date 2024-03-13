@@ -48,20 +48,19 @@ class RedditClient():
             raise RequestException(
                 f'Error getting posts from subreddit: {error}')
 
-        response_data = response.json()['data']
         posts = [
             {
                 'id': post['data']['id'],
                 'title': post['data']['title'],
                 'url': post['data']['url'],
-            } for post in response_data['children']
+                'nsfw': post['data']['over_18']
+            } for post in  response.json()['data']['children']
         ]
         return posts
 
     # Get given number of comments for given post in subreddit
 
     def get_comments(self, subreddit_name: str, post_id: str, num_comments: int) -> list[dict]:
-
         try:
             response = self.session.get(
                 f'{API_URL}/r/{subreddit_name}/comments/{post_id}/best')

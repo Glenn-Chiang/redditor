@@ -40,7 +40,7 @@ def generate():
 
     post = select_post(posts)
 
-    print(f"\nSelected post {post['id']}: {post['title']}")
+    print(f"\nSelected post {post['id']}: {post['title']} {'(nsfw)' if post['nsfw'] else ''}")
     print(f"Getting comments...")
 
     try:
@@ -86,7 +86,7 @@ def generate():
     print('\nDownloading screenshots...')
 
     screenshot_thread(subreddit=target_subreddit, post_id=f"t3_{post['id']}", comment_ids=[
-                      f"t1_{comment['id']}" for comment in comments], output_dir=screenshot_directory)
+                      f"t1_{comment['id']}" for comment in comments], output_dir=screenshot_directory, nsfw=post['nsfw'])
 
     print('Creating video...')
     video_filename = post['url'].split('/')[7] + '.mp4'

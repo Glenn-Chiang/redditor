@@ -46,7 +46,7 @@ def screenshot_comment(subreddit: str, post_id: str, comment_id: str, output_pat
 # Download screenshot of post and comments while launching 1 browser
 def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], output_dir: str, nsfw: bool = False):
     with sync_playwright() as playwright:
-        browser = playwright.webkit.launch(headless=False)
+        browser = playwright.webkit.launch()
 
         # Change user-agent to avoid being detected as a bot
         page = browser.new_page(user_agent=USER_AGENT)
@@ -90,25 +90,3 @@ def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], outp
 
         browser.close()
 
-
-def testA():
-    start = time.time()
-
-    post_id = 't3_1bcsmoy'
-    comment_ids = [
-        't1_kujdv7e',
-        't1_kui0m13',
-        't1_kuiahqp',
-        't1_kukf32v',
-        't1_kui9po2',
-    ]
-
-    screenshot_thread(subreddit='AskReddit', post_id=post_id,
-                      comment_ids=comment_ids, output_dir='output', nsfw=True)
-
-    end = time.time()
-    print(f'Finished in {round(end - start, 2)}s')
-
-
-if __name__ == '__main__':
-    testA()
