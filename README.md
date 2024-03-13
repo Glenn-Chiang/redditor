@@ -1,5 +1,6 @@
 # redditor
-A script that generates short-form videos from popular reddit threads
+A script that generates short-form videos from popular reddit threads.  
+Simply select a subreddit post and automatically generate a video displaying screenshots of the post and comments, along with voice-over narration and engaging background visuals. Perfect for uploading to Tiktok or Youtube shorts.
 
 [![thumbnail](http://img.youtube.com/vi/goTNMh0OINo/0.jpg)](https://www.youtube.com/shorts/goTNMh0OINo)
 [![thumbnail](http://img.youtube.com/vi/bDfnwqNr50g/0.jpg)](https://www.youtube.com/shorts/bDfnwqNr50g)
