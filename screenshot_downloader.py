@@ -56,8 +56,8 @@ def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], outp
         # If post is marked as nsfw, we need to login
         if nsfw:
             page.locator('#login-button').click()
-            page.locator('#login-password').first.fill(REDDIT_PASSWORD)
-            page.locator('#login-username').first.fill(REDDIT_USERNAME)
+            page.locator('input#login-username').first.fill(REDDIT_USERNAME)
+            page.locator('input#login-password').first.fill(REDDIT_PASSWORD)
             page.locator(
                 '#login > faceplate-tabpanel > auth-flow-modal:nth-child(1) > div.w-100 > faceplate-tracker > button').click()
 
