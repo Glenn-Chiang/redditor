@@ -97,7 +97,7 @@ def generate():
     print('Video generated!')
 
     # Remove temp directory
-    shutil.rmtree(temp_directory)
+    # shutil.rmtree(temp_directory)
 
 
 if __name__ == '__main__':

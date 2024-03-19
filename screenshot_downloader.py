@@ -11,7 +11,7 @@ REDDIT_PASSWORD = os.getenv('REDDIT_PASSWORD')
 
 def screenshot_post(subreddit: str, post_id: str, output_path: str):
     with sync_playwright() as playwright:
-        browser = playwright.webkit.launch()
+        browser = playwright.chromium.launch()
         # Change user-agent to avoid being detected as a bot
         page = browser.new_page(user_agent=USER_AGENT)
         page.goto(
@@ -19,12 +19,10 @@ def screenshot_post(subreddit: str, post_id: str, output_path: str):
         page.locator(f'#{post_id}').screenshot(path=output_path)
         browser.close()
 
-# Handle nsfw
-
 
 def screenshot_comment(subreddit: str, post_id: str, comment_id: str, output_path: str):
     with sync_playwright() as playwright:
-        browser = playwright.webkit.launch()
+        browser = playwright.chromium.launch()
         # Change user-agent to avoid being detected as a bot
         page = browser.new_page(user_agent=USER_AGENT)
         page.goto(
@@ -46,7 +44,7 @@ def screenshot_comment(subreddit: str, post_id: str, comment_id: str, output_pat
 # Download screenshot of post and comments while launching 1 browser
 def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], output_dir: str, nsfw: bool = False):
     with sync_playwright() as playwright:
-        browser = playwright.webkit.launch()
+        browser = playwright.chromium.launch()
 
         # Change user-agent to avoid being detected as a bot
         page = browser.new_page(user_agent=USER_AGENT)

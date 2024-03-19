@@ -65,7 +65,7 @@ def make_video(audio_dir: str, image_dir: str, background_video_path: str, outpu
 
     # Video containing sequence of images
     images_video = concatenate_videoclips(
-        image_clips, method='compose').resize(1.75, PIL.Image.LANCZOS)
+        image_clips, method='compose').resize(width=video_size[0])
 
     background_video = get_background_clip(
         video_path=background_video_path, duration=int(images_video.duration), size=video_size)
