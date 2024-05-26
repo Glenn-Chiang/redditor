@@ -90,6 +90,3 @@ def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], outp
                 continue
 
         browser.close()
-
-
-# screenshot_thread(subreddit="AskReddit", post_id="t3_1d0oosm", comment_ids=[], output_dir="tmp/screenshots", nsfw=True)
