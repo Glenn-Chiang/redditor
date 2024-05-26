@@ -41,7 +41,9 @@ def screenshot_comment(subreddit: str, post_id: str, comment_id: str, output_pat
         browser.close()
 
 
-# Download screenshot of post and comments while launching 1 browser
+# Download screenshot of post and comments
+# post_id should be prefixed with "t3"
+# comment_id should be prefixed with "t1"
 def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], output_dir: str, nsfw: bool = False):
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch()
@@ -56,8 +58,8 @@ def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], outp
             page.locator('#login-button').click()
             page.locator('input#login-username').first.fill(REDDIT_USERNAME)
             page.locator('input#login-password').first.fill(REDDIT_PASSWORD)
-            page.locator(
-                '#login > faceplate-tabpanel > auth-flow-modal:nth-child(1) > div.w-100 > faceplate-tracker > button').click()
+            # Login button
+            page.locator("#login").get_by_role("button", name="Log In").click()
 
         # Screenshot post
         page.locator(f'#{post_id}').click()
@@ -88,3 +90,6 @@ def screenshot_thread(subreddit: str, post_id: str, comment_ids: list[str], outp
                 continue
 
         browser.close()
+
+
+# screenshot_thread(subreddit="AskReddit", post_id="t3_1d0oosm", comment_ids=[], output_dir="tmp/screenshots", nsfw=True)

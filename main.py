@@ -81,8 +81,6 @@ def generate():
                 f"Error generating audio for comment {comment['id']}:", error)
             continue
 
-    # TODO: Remove audio files of comments that would exceed video duration. Then, only download screenshots for remaining comments.
-
     print('\nDownloading screenshots...')
 
     screenshot_thread(subreddit=target_subreddit, post_id=f"t3_{post['id']}", comment_ids=[
@@ -97,7 +95,7 @@ def generate():
     print('Video generated!')
 
     # Remove temp directory
-    # shutil.rmtree(temp_directory)
+    shutil.rmtree(temp_directory)
 
 
 if __name__ == '__main__':

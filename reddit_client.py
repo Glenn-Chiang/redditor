@@ -9,7 +9,6 @@ REDDIT_CLIENT_ID = os.getenv('REDDIT_CLIENT_ID')
 REDDIT_CLIENT_SECRET = os.getenv('REDDIT_CLIENT_SECRET')
 API_URL = 'https://oauth.reddit.com'
 
-
 class RedditClient():
     session: requests.Session
 
@@ -42,11 +41,13 @@ class RedditClient():
     def get_posts(self, subreddit_name: str, num_posts: int) -> list[dict]:
         try:
             response = self.session.get(
-                f'{API_URL}/r/{subreddit_name}/best', params={'limit': num_posts})
+                f'{API_URL}/r/{subreddit_name}/best.json', params={'limit': num_posts})
             response.raise_for_status()
         except RequestException as error:
             raise RequestException(
                 f'Error getting posts from subreddit: {error}')
+
+        print(response.content)
 
         posts = [
             {
@@ -63,7 +64,7 @@ class RedditClient():
     def get_comments(self, subreddit_name: str, post_id: str, num_comments: int) -> list[dict]:
         try:
             response = self.session.get(
-                f'{API_URL}/r/{subreddit_name}/comments/{post_id}/best')
+                f'{API_URL}/r/{subreddit_name}/comments/{post_id}/best.json')
             response.raise_for_status()
         except RequestException as error:
             raise RequestException(
